@@ -8,6 +8,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.content.Context;
 import android.widget.TextView;
+import android.view.View;
 
 public class MainActivity extends Activity implements SensorEventListener {
 	private SensorManager sensorManager;
@@ -53,10 +54,15 @@ public class MainActivity extends Activity implements SensorEventListener {
 	@Override
 	public void onSensorChanged(SensorEvent event) {
 		if (timePassed) {
+			int val = (int) event.values[0];
+			
+			if (val > 1)
+				val = 1;
+			
 			tvCounter.setText(
 				String.valueOf(
 					Integer.parseInt(tvCounter.getText().toString())+
-					(int) event.values[0]
+					val
 				)
 			);
 		}
@@ -67,5 +73,13 @@ public class MainActivity extends Activity implements SensorEventListener {
 			e.printStackTrace();
 		}
 		timePassed = true;
+	}
+	
+	public void onClick(View v) {
+		tvCounter.setText(
+			String.valueOf(
+				Integer.parseInt(tvCounter.getText().toString())+1
+			)
+		);
 	}
 }
