@@ -35,7 +35,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		super.onResume();
 		sensorManager.registerListener(this,
 			sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY),
-			SensorManager.SENSOR_DELAY_NORMAL
+			SensorManager.SENSOR_DELAY_UI
 		);
 	}
 	
