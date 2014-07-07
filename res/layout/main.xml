@@ -2,17 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical"
 	android:layout_width="fill_parent"
-	android:layout_height="fill_parent">
+	android:layout_height="fill_parent"
+	android:gravity="center_horizontal">
 	
-	<TextView
-		android:id="@+id/tvcounter"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:text="-1"
-		android:gravity="center"
-		android:textSize="50px"
-		android:onClick="onClick"
-		android:clickable="true"
-	/>
+	<Button 
+		android:id="@+id/startbtn"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Start counting push ups"
+		android:onClick="onClick" />
+	
 </LinearLayout>
-
