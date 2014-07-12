@@ -17,6 +17,7 @@ public class MainActivity extends Activity {
 	
 	public void onClick(View v) {
 		Intent i = new Intent(getApplicationContext(), CounterActivity.class);
+		i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(i);
 	}
 }

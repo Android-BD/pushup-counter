@@ -6,6 +6,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.content.Intent;
 import android.content.Context;
 import android.widget.TextView;
 import android.view.View;
@@ -81,5 +82,11 @@ public class CounterActivity extends Activity implements SensorEventListener {
 				Integer.parseInt(tvCounter.getText().toString())+1
 			)
 		);
+	}
+	
+	public void finishCounting(View v) {
+		Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+		intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(intent);
 	}
 }
