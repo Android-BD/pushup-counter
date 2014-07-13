@@ -20,4 +20,9 @@ public class MainActivity extends Activity {
 		i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(i);
 	}
+	
+	public void showStats(View v) {
+		Intent i = new Intent(getApplicationContext(), StatsActivity.class);
+		startActivity(i);
+	}
 }
