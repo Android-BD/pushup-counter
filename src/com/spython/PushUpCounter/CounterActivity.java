@@ -96,7 +96,7 @@ class PushUpData {
 		
 		Calendar currentDateTime = Calendar.getInstance();
 		int year = currentDateTime.get(Calendar.YEAR);
-		int month = currentDateTime.get(Calendar.MONTH);
+		int month = currentDateTime.get(Calendar.MONTH) + 1;
 		int day = currentDateTime.get(Calendar.DAY_OF_MONTH);
 		int hour = currentDateTime.get(Calendar.HOUR_OF_DAY);
 		int minute = currentDateTime.get(Calendar.MINUTE);
