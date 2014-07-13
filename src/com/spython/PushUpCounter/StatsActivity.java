@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
@@ -20,6 +22,15 @@ public class StatsActivity extends Activity {
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.stats);
+		
+		Calendar curDate = Calendar.getInstance();
+		int month = curDate.get(Calendar.MONTH)+1;
+		int year = curDate.get(Calendar.YEAR);
+		
+		String[] months = {"January", "February", "March", "April", "May",
+			"June", "Jule", "August", "September", "October", "November",
+			"December"};
+		
 		PushUpData pushUpData = new PushUpData(getApplicationContext());
 		
 		LinearLayout layout = (LinearLayout) findViewById(R.id.layout);
@@ -41,11 +52,12 @@ public class StatsActivity extends Activity {
 			totalCount += count;
 			averageSpeed += (Long) temp.get(2) / count;
 			int[] tmp = (int[]) temp.get(1);
-			gData[i] = new GraphViewData(tmp[2], (double) count);
+			if (tmp[0] == year && tmp[1] == month)
+				gData[i] = new GraphViewData(tmp[2], count);
 		}
 		
 		GraphViewSeries series = new GraphViewSeries(gData);
-		GraphView graphView = new BarGraphView(this, "Push ups");
+		GraphView graphView = new BarGraphView(this, months[month-1]);
 		graphView.addSeries(series);
 		
 		if (i == 0) {
