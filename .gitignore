@@ -5,6 +5,7 @@
 *.ap_
 *.class
 *.dex
+*.keystore
 bin/
 gen/
 local.properties
