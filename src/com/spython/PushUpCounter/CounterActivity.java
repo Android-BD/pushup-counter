@@ -19,6 +19,7 @@ import java.io.OutputStreamWriter;
 import java.io.FileOutputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Calendar;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -27,8 +28,11 @@ class PushUpData {
 	private String csvFileDirectoryPath;
 	private String csvFileName;
 	private File csvFile;
+	private Context context;
 	
-	public PushUpData() {
+	public PushUpData(Context ctx) {
+		context = ctx;
+		
 		sdCardPath = Environment.getExternalStorageDirectory().getAbsolutePath();
 		csvFileDirectoryPath = sdCardPath + "/.PushUpCounter";
 		File csvFileDirectory = new File(csvFileDirectoryPath);
@@ -49,7 +53,8 @@ class PushUpData {
 		}
 	}
 	
-	public List<String> readLines(Context context, String filename) throws IOException {
+	private List<String> readLines() throws IOException {
+		String filename = csvFileDirectoryPath + "/" + csvFileName;
 		List<String> lines = new ArrayList<String>();
 		AssetManager assets = context.getAssets();
 		BufferedReader reader = new BufferedReader(
@@ -64,9 +69,39 @@ class PushUpData {
 		return lines;
 	}
 	
-	public void writeData(String count, String date) throws IOException {
+	public List getData() {
+		List data = new ArrayList();
+		List<String> fileData = new ArrayList<String>();
+		try {
+			fileData = readLines();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		for (String str : fileData) {
+			String splitted[] = str.split(",");
+			int count = Integer.parseInt(splitted[0]);
+			String date = splitted[1];
+			List temp = new ArrayList();
+			temp.add(count);
+			temp.add(date);
+			data.add(temp);
+		}
+		
+		return data;
+	}
+	
+	public void writeData(int count) throws IOException {
 		FileOutputStream fos = new FileOutputStream(csvFile, true);
 		OutputStreamWriter osw = new OutputStreamWriter(fos);
+		
+		Calendar currentDateTime = Calendar.getInstance();
+		int year = currentDateTime.get(Calendar.YEAR);
+		int month = currentDateTime.get(Calendar.MONTH);
+		int day = currentDateTime.get(Calendar.DAY_OF_MONTH);
+		int hour = currentDateTime.get(Calendar.HOUR_OF_DAY);
+		int minute = currentDateTime.get(Calendar.MINUTE);
+		
+		String date = year + "." + month + "." + day + " " + hour + ":" + minute;
 		
 		String line = count + "," + date + "\n";
 		
@@ -79,6 +114,7 @@ public class CounterActivity extends Activity implements SensorEventListener {
 	private SensorManager sensorManager;
 	private TextView tvCounter;
 	private boolean timePassed = true;
+	private int count = -1;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -124,10 +160,11 @@ public class CounterActivity extends Activity implements SensorEventListener {
 			if (val > 1)
 				val = 1;
 			
+			count += val;
+			
 			tvCounter.setText(
 				String.valueOf(
-					Integer.parseInt(tvCounter.getText().toString())+
-					val
+					count
 				)
 			);
 		}
@@ -141,14 +178,24 @@ public class CounterActivity extends Activity implements SensorEventListener {
 	}
 	
 	public void onClick(View v) {
+		count += 1;
+
+		
 		tvCounter.setText(
 			String.valueOf(
-				Integer.parseInt(tvCounter.getText().toString())+1
+				count
 			)
 		);
 	}
 	
 	public void finishCounting(View v) {
+		PushUpData data = new PushUpData(getApplicationContext());
+		try {
+			data.writeData(count);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 		intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);
