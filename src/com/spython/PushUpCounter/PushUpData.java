@@ -78,16 +78,19 @@ public class PushUpData {
 			int hour = Integer.parseInt(splitted[4]);
 			int minute = Integer.parseInt(splitted[5]);
 			int date[] = {year, month, day, hour, minute};
+			long time = Long.parseLong(splitted[6]);
+			
 			List temp = new ArrayList();
 			temp.add(count);
 			temp.add(date);
+			temp.add(time);
 			data.add(temp);
 		}
 		
 		return data;
 	}
 	
-	public void writeData(int count) throws IOException {
+	public void writeData(int count, long time) throws IOException {
 		FileOutputStream fos = new FileOutputStream(csvFile, true);
 		OutputStreamWriter osw = new OutputStreamWriter(fos);
 		
@@ -100,7 +103,7 @@ public class PushUpData {
 		
 		String date = year + "," + month + "," + day + "," + hour + "," + minute;
 		
-		String line = count + "," + date + "\n";
+		String line = count + "," + date + "," + time + "\n";
 		
 		osw.write(line);
 		osw.close();

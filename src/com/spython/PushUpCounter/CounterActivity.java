@@ -13,11 +13,15 @@ import android.view.View;
 
 import java.io.IOException;
 
+import java.util.Calendar;
+
 public class CounterActivity extends Activity implements SensorEventListener {
 	private SensorManager sensorManager;
 	private TextView tvCounter;
-	private boolean timePassed = true;
-	private int count = -1;
+	private int count = 0;
+	private boolean justStarted = true;
+	private Calendar dateStarted;
+	private long timeElapsed = 0;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -57,32 +61,26 @@ public class CounterActivity extends Activity implements SensorEventListener {
 	
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-		if (timePassed) {
-			int val = (int) event.values[0];
-			
-			if (val > 1)
-				val = 1;
-			
-			count += val;
-			
-			tvCounter.setText(
-				String.valueOf(
-					count
-				)
-			);
+		if (justStarted) {
+			justStarted = false;
+			dateStarted = Calendar.getInstance();
+			return;
 		}
-		timePassed = false;
-		try {
-			Thread.sleep(250);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		timePassed = true;
+		
+		int val = (int) event.values[0];
+		
+		if (val > 1)
+			val = 1;
+		
+		count += val;
+		
+		tvCounter.setText(
+			String.valueOf(
+				count));
 	}
 	
 	public void onClick(View v) {
 		count += 1;
-
 		
 		tvCounter.setText(
 			String.valueOf(
@@ -93,8 +91,14 @@ public class CounterActivity extends Activity implements SensorEventListener {
 	
 	public void finishCounting(View v) {
 		PushUpData data = new PushUpData(getApplicationContext());
+		
+		Calendar currentDate = Calendar.getInstance();
+		
+		timeElapsed = currentDate.getTimeInMillis() -
+			dateStarted.getTimeInMillis();
+		
 		try {
-			data.writeData(count);
+			data.writeData(count, timeElapsed);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
