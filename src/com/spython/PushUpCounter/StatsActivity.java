@@ -34,9 +34,9 @@ public class StatsActivity extends Activity {
 		PushUpData pushUpData = new PushUpData(getApplicationContext());
 		
 		LinearLayout layout = (LinearLayout) findViewById(R.id.layout);
-		TextView total = (TextView) findViewById(R.id.total);
-		TextView average = (TextView) findViewById(R.id.average);
-		TextView speed = (TextView) findViewById(R.id.speed);
+		TextView total = (TextView) layout.findViewById(R.id.total);
+		TextView average = (TextView) layout.findViewById(R.id.average);
+		TextView speed = (TextView) layout.findViewById(R.id.speed);
 		
 		List data = new ArrayList();
 		data = pushUpData.getData();

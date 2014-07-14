@@ -12,6 +12,13 @@
 		android:onClick="onClick" />
 	
 	<Button
+		android:id="@+id/addrecordbtn"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="Add record manually"
+		android:onClick="addRecord" />
+	
+	<Button
 		android:id="@+id/showstatsbtn"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
