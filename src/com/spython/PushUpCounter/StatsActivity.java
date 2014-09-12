@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
-import com.jjoe64.graphview.BarGraphView;
+import com.jjoe64.graphview.LineGraphView;
 import com.jjoe64.graphview.GraphViewSeries;
 
 public class StatsActivity extends Activity {
@@ -68,7 +68,7 @@ public class StatsActivity extends Activity {
 		
 		if (k > 0) {
 			GraphViewSeries series = new GraphViewSeries(gData);
-			GraphView graphView = new BarGraphView(this, months[month-1]);
+			GraphView graphView = new LineGraphView(this, months[month-1]);
 			graphView.addSeries(series);
 			layout.addView(graphView);
 		}
