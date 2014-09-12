@@ -56,9 +56,22 @@ public class StatsActivity extends Activity {
 				gData[i] = new GraphViewData(tmp[2], count);
 		}
 		
-		GraphViewSeries series = new GraphViewSeries(gData);
-		GraphView graphView = new BarGraphView(this, months[month-1]);
-		graphView.addSeries(series);
+		int k = 0;
+		
+		for (int j=0; j < data.size(); j++) {
+			if (gData[j] != null) {
+				k += 1;
+			} else {
+				gData[j] = new GraphViewData(0.0, 0.0);
+			}
+		}
+		
+		if (k > 0) {
+			GraphViewSeries series = new GraphViewSeries(gData);
+			GraphView graphView = new BarGraphView(this, months[month-1]);
+			graphView.addSeries(series);
+			layout.addView(graphView);
+		}
 		
 		if (i == 0) {
 			i = 1;
@@ -76,7 +89,5 @@ public class StatsActivity extends Activity {
 			String.valueOf(averageCount));
 		speed.setText("Average time needed to make a push up: " +
 			String.valueOf(averageSpeedSec) + measure);
-		
-		layout.addView(graphView);
 	}
 }
