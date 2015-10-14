@@ -85,7 +85,7 @@ public class StatsActivity extends Activity {
 		
 		total.setText("Total push ups made: " +
 			String.valueOf(totalCount));
-		average.setText("Average push ups per approach: " +
+		average.setText("Average push ups per set: " +
 			String.valueOf(averageCount));
 		speed.setText("Average time needed to make a push up: " +
 			String.valueOf(averageSpeedSec) + measure);
